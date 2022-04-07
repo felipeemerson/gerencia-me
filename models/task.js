@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const STATUS_ENUM = ['To Do', 'Doing', 'Done'];
+const STATUS_ENUM = ['A fazer', 'Fazendo', 'Feito'];
 
 const Task = mongoose.model(
     "Task",
@@ -25,7 +25,6 @@ function validateTask(task) {
     const schema = Joi.object({
         title: Joi.string().max(100).required(),
         status: Joi.string().valid(...STATUS_ENUM).required(),
-        userId: Joi.objectId().required(),
         typeId: Joi.objectId().required()
     });
 
