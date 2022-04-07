@@ -18,8 +18,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    types: [mongoose.Schema.Types.ObjectId]
+    }
 });
 
 userSchema.methods.generateAuthToken = function() {

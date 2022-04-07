@@ -13,7 +13,9 @@ if(!config.get('jwtPrivateKey')) {
     throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');
 }
 
-mongoose.connect(config.get('db'), {
+const db = config.get('db');
+
+mongoose.connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(console.log(`Connected to ${db}...`));
