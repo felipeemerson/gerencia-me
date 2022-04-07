@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const config = require('config');
 
 require('./startup/validation')();
 
@@ -8,10 +9,11 @@ const types = require('./routes/types');
 const tasks = require('./routes/tasks');
 const auth = require('./routes/auth');
 
+if(!config.get('jwtPrivateKey')) {
+    throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');
+}
 
-const db = "mongodb://localhost/gerencia-me";
-
-mongoose.connect(db, {
+mongoose.connect(config.get('db'), {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(console.log(`Connected to ${db}...`));

@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "gerenciame_jwtPrivateKey",
+    "db": "gerenciame-db"
+}
