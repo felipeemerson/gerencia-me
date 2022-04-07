@@ -4,11 +4,19 @@ const bcrypt = require('bcrypt');
 const Joi = require('joi');
 
 const validate_middleware = require('../middlewares/validation');
+const auth = require('../middlewares/auth');
 
 const { User, validate } = require('../models/user');
 
+router.get('/me', auth, async(req, res) => {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).send("The user with the given ID was not found.");
+
+    return res.send(user);
+});
+
 router.post('/', validate_middleware(validate), async(req, res) => {
-    let user = User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send("User already registered.");
 
     user = new User({
