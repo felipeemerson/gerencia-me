@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as NavLink } from 'react-router-dom';
 
 import { Heading, Box, HStack, Button, Flex, Spacer, StackDivider, Link } from '@chakra-ui/react';
 
@@ -12,8 +13,8 @@ const Header = () => {
                 </Box>
 
                 <HStack divider={<StackDivider borderColor='blue.200' />} mx='4em' spacing='5' p='1em'>
-                    <Link color='blue.600'>Tipos</Link>
-                    <Link color='blue.600'>Tarefas</Link>
+                    <Link as={NavLink} color='blue.600' to='/types'>Tipos</Link>
+                    <Link as={NavLink} color='blue.600' to='/'>Tarefas</Link>
                 </HStack>
 
                 <Spacer />
