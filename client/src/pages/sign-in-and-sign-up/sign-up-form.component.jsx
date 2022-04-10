@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useAuth } from '../../contexts/auth.context';
 
 import  { AiOutlineUserAdd } from 'react-icons/ai';
 
@@ -38,6 +39,9 @@ const validationSchema = yup.object({
 });
 
 const SignUpForm = ({ handleChangePage }) => {
+    const auth = useAuth();
+    const { createUserAndDoLogin } = auth;
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -47,7 +51,8 @@ const SignUpForm = ({ handleChangePage }) => {
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-            console.log('Valores: ', values);
+            const {confirmPassword, ...user } = values
+            createUserAndDoLogin(user);
         }
     });
 

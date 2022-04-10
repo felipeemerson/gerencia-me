@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = '/api/types';
+const TYPES_URL = '/api/types';
 
-export async function fetchAllTypesFromUser(accessToken) {
+export async function getAllTypesFromUser(accessToken) {
     const { data } = await axios({
-        url: BASE_URL,
+        url: TYPES_URL,
         method: 'get',
         headers: {
             "Authorization": accessToken
@@ -14,9 +14,9 @@ export async function fetchAllTypesFromUser(accessToken) {
     return data;
 }
 
-export async function postType(accessToken, type) {
+export async function createType(accessToken, type) {
     const { data } = await axios({
-        url: BASE_URL,
+        url: TYPES_URL,
         method: 'post',
         headers: {
             "Authorization": accessToken

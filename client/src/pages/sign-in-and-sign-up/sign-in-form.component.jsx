@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { useAuth } from '../../contexts/auth.context';
+
 import  {
     AiOutlineUser,
     AiFillEye,
@@ -34,6 +36,9 @@ const validationSchema = yup.object({
 });
 
 const SignInForm = ({ handleChangePage }) => {
+    const auth = useAuth();
+    const { login } = auth;
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -41,7 +46,7 @@ const SignInForm = ({ handleChangePage }) => {
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-            console.log('Valores: ', values);
+            login(values);
         }
     });
 

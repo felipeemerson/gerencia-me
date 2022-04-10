@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
 
 import { Container } from '@chakra-ui/react';
 

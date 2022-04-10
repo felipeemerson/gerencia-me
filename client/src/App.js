@@ -5,26 +5,28 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
+import { useAuth } from './contexts/auth.context';
 
 import Header from './components/header/header.component';
-
 import TypesPage from './pages/types/types.component';
 import TasksPage from './pages/tasks/tasks.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
+
 function App() {
-  const login = !true;
+  const auth = useAuth();
+  const { isLoggedIn } = auth;
 
   return (
     <Router>
       {
-        login ? <Header /> : null
+        isLoggedIn ? <Header /> : null
       }
 
       <Routes>
-        <Route path='/types' element={login ? <TypesPage /> : <Navigate to ="/login" />} />
-        <Route path='/' element={login ? <TasksPage /> : <Navigate to ="/login" />} />
-        <Route path='/login' element={login ? <Navigate to ="/" /> : <SignInAndSignUpPage />} />
+        <Route path='/types' element={isLoggedIn ? <TypesPage /> : <Navigate to ="/login" />} />
+        <Route path='/' element={isLoggedIn ? <TasksPage /> : <Navigate to ="/login" />} />
+        <Route path='/login' element={isLoggedIn ? <Navigate to ="/" /> : <SignInAndSignUpPage />} />
       </Routes>
     </Router>
   );
