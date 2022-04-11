@@ -4,15 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { AuthProvider } from './contexts/auth.context';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useAuth } from '../../contexts/auth.context';
+import { useCreateType } from '../../api/types';
 
 import {
     VStack,
@@ -8,7 +10,9 @@ import {
     FormLabel,
     FormErrorMessage,
     Input,
-    Button
+    Button,
+    Alert,
+    AlertIcon
 } from '@chakra-ui/react';
 
 import ColorPicker from '../../components/color-picker/color-picker.component';
@@ -20,15 +24,18 @@ const validationSchema = yup.object({
         .required('Nome do tipo é obrigatório')
 });
 
-const TypeForm = () => {
+const TypeForm = ({ handleClose }) => {
+    const auth = useAuth();
+    const { mutate, isSuccess, isError, error, isLoading } = useCreateType();
+
     const formik = useFormik({
         initialValues: {
             name: '',
-            color: ''
+            color: 'gray.400'
         },
         validationSchema: validationSchema,
-        onSubmit: values => {
-            console.log(values);
+        onSubmit: (values) => {
+            mutate({ accessToken: auth.accessToken, type: values });
         }
     });
 
@@ -36,10 +43,23 @@ const TypeForm = () => {
         formik.setFieldValue('color', color);
     }
 
+    if (isSuccess) {
+        handleClose();
+    }
+
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
                 <VStack spacing={4}>
+                    {
+                        isError && !isLoading ? (
+                            <Alert status='error'>
+                                <AlertIcon />
+                                {error.response.data}
+                            </Alert>
+                        ) : null
+                    }
+
                     <FormControl isInvalid={formik.touched.name && Boolean(formik.errors.name)} isRequired>
                         <FormLabel htmlFor='name'>Nome</FormLabel>
                             <Input
@@ -58,10 +78,7 @@ const TypeForm = () => {
                         <FormLabel htmlFor='color'>Cor</FormLabel>
                         <ColorPicker onChange={handleColorChange} />
                     </FormControl>
-
-
                     <Button type='submit' colorScheme='blue' alignSelf='end'>Salvar</Button>
-
                 </VStack>
             </form>
         </>

@@ -15,19 +15,19 @@ import {
 */
 const ColorPicker = ({ onChange }) => {
     const [isOpen, setIsOpen] = useBoolean();
-    const [color, setColor] = useState("gray.500");
+    const [color, setColor] = useState("gray.400");
 
     const colors = [
-        "gray.500",
-        "red.500",
-        "gray.700",
-        "green.500",
-        "blue.500",
-        "blue.800",
-        "yellow.500",
-        "orange.500",
-        "purple.500",
-        "pink.500"
+        "gray.400",
+        "red.400",
+        "gray.600",
+        "green.400",
+        "blue.400",
+        "blue.700",
+        "yellow.400",
+        "orange.400",
+        "purple.400",
+        "pink.100"
       ];
 
     return (

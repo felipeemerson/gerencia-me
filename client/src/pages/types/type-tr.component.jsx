@@ -1,4 +1,6 @@
 import React from 'react';
+import { useAuth } from '../../contexts/auth.context';
+import { useDeleteType } from '../../api/types';
 
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 
@@ -12,13 +14,20 @@ import {
 
 
 const TypeTr = ({ type }) => {
+    const auth = useAuth();
+    const { mutate } = useDeleteType();
+
+    const handleDelete = () => {
+        mutate({ accessToken: auth.accessToken, typeId: type._id });
+    }
+
     return (
         <Tr>
             <Td>
                 <Text>{type.name}</Text>
             </Td>
             <Td>
-                <Box bg={type.color + '.500'} padding='5px 0px' />
+                <Box bg={type.color} padding='5px 0px' />
             </Td>
             <Td isNumeric>
                 <IconButton
@@ -32,6 +41,7 @@ const TypeTr = ({ type }) => {
                     aria-label='Edit type'
                     variant='ghost'
                     icon={<AiOutlineDelete />}
+                    onClick={handleDelete}
                 />
             </Td>
         </Tr>

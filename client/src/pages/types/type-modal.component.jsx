@@ -21,7 +21,7 @@ const TypeModal = ({ isOpen, onClose }) => {
                 <ModalHeader>Criar novo tipo</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <TypeForm />
+                    <TypeForm handleClose={onClose} />
                 </ModalBody>
                 </ModalContent>
             </Modal>

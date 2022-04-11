@@ -7,7 +7,10 @@ const auth = require('../middlewares/auth');
 const { Type, validate } = require('../models/type');
 
 router.post('/', [auth, validate_middleware(validate)], async (req, res) => {
-    const type = new Type({
+    let type = await Type.findOne({ name: req.body.name });
+    if (type) return res.status(400).send("Type already registered");
+
+    type = new Type({
         name: req.body.name,
         color: req.body.color,
         userId: req.user._id
