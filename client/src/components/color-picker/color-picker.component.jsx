@@ -13,9 +13,8 @@ import {
 /*
     Component based on https://github.com/Buupu/chakra-color-picker
 */
-const ColorPicker = ({ onChange }) => {
+const ColorPicker = ({ onChange, color }) => {
     const [isOpen, setIsOpen] = useBoolean();
-    const [color, setColor] = useState("gray.400");
 
     const colors = [
         "gray.400",
@@ -50,20 +49,19 @@ const ColorPicker = ({ onChange }) => {
                 <PopoverContent w="auto" boxShadow="md">
                     <PopoverArrow />
                     <SimpleGrid columns={5} p={1} spacing={1}>
-                    {colors.map((color, index) => (
+                    {colors.map((_color, index) => (
                         <Button
                             key={`color-picker-${color}-${index}`}
                             h="40px"
                             w="40px"
                             p={0}
                             minW="40px"
-                            bg={color}
-                            _hover={{ bg: color, transform: "scale(1.05)" }}
-                            _active={{ bg: color }}
+                            bg={_color}
+                            _hover={{ bg: _color, transform: "scale(1.05)" }}
+                            _active={{ bg: _color }}
                             onClick={() => {
                                 setIsOpen.toggle();
-                                setColor(color);
-                                onChange(color);
+                                onChange(_color);
                             }}
                         />
                     ))}

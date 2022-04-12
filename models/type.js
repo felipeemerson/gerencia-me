@@ -20,7 +20,9 @@ const Type = mongoose.model(
 function validateType(type) {
     const schema = Joi.object({
         name: Joi.string().max(25).required(),
-        color: Joi.string().required()
+        color: Joi.string().required(),
+        _id: Joi.objectId(),
+        userId: Joi.objectId()
     });
 
     return schema.validate(type);

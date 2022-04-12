@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../../contexts/auth.context';
-import { useCreateType } from '../../api/types';
+import { useCreateType, useUpdateType } from '../../api/types';
 
 import {
     VStack,
@@ -24,18 +24,30 @@ const validationSchema = yup.object({
         .required('Nome do tipo é obrigatório')
 });
 
-const TypeForm = ({ handleClose }) => {
+const TypeForm = ({ handleClose, type }) => {
     const auth = useAuth();
-    const { mutate, isSuccess, isError, error, isLoading } = useCreateType();
+    const createTypeMutation = useCreateType();
+    const updateTypeMutation = useUpdateType();
+    const isEditing = Boolean(type);
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            color: 'gray.400'
+            name: isEditing ? type.name : '',
+            color: isEditing ? type.color : 'gray.400'
         },
-        validationSchema: validationSchema,
+        validationSchema,
         onSubmit: (values) => {
-            mutate({ accessToken: auth.accessToken, type: values });
+            isEditing ?
+                updateTypeMutation.mutate({ accessToken: auth.accessToken, type: 
+                    {
+                        color: values.color,
+                        name: values.name,
+                        _id: type._id,
+                        userId: type.userId
+                    }
+                })
+            :
+                createTypeMutation.mutate({ accessToken: auth.accessToken, type: values });
         }
     });
 
@@ -43,8 +55,19 @@ const TypeForm = ({ handleClose }) => {
         formik.setFieldValue('color', color);
     }
 
-    if (isSuccess) {
+    if (createTypeMutation.isSuccess || updateTypeMutation.isSuccess) {
         handleClose();
+    }
+
+    const hasError = () => {
+        return updateTypeMutation.isError || createTypeMutation.isError;
+    }
+
+    const getError = () => {
+        return isEditing ?
+            updateTypeMutation.error.response.data
+        :
+            createTypeMutation.error.response.data;
     }
 
     return (
@@ -52,10 +75,10 @@ const TypeForm = ({ handleClose }) => {
             <form onSubmit={formik.handleSubmit}>
                 <VStack spacing={4}>
                     {
-                        isError && !isLoading ? (
+                        hasError() ? (
                             <Alert status='error'>
                                 <AlertIcon />
-                                {error.response.data}
+                                {getError()}
                             </Alert>
                         ) : null
                     }
@@ -76,7 +99,7 @@ const TypeForm = ({ handleClose }) => {
 
                     <FormControl>
                         <FormLabel htmlFor='color'>Cor</FormLabel>
-                        <ColorPicker onChange={handleColorChange} />
+                        <ColorPicker onChange={handleColorChange} color={formik.values.color} />
                     </FormControl>
                     <Button type='submit' colorScheme='blue' alignSelf='end'>Salvar</Button>
                 </VStack>

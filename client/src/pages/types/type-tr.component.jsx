@@ -9,13 +9,16 @@ import {
     Td,
     Text,
     Box,
-    IconButton
+    IconButton,
+    useDisclosure
 } from '@chakra-ui/react';
 
+import TypeModal from './type-modal.component';
 
 const TypeTr = ({ type }) => {
     const auth = useAuth();
     const { mutate } = useDeleteType();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleDelete = () => {
         mutate({ accessToken: auth.accessToken, typeId: type._id });
@@ -35,6 +38,7 @@ const TypeTr = ({ type }) => {
                     aria-label='Edit type'
                     variant='ghost'
                     icon={<AiOutlineEdit />}
+                    onClick={onOpen}
                 />
                 <IconButton
                     colorScheme='blue'
@@ -43,6 +47,7 @@ const TypeTr = ({ type }) => {
                     icon={<AiOutlineDelete />}
                     onClick={handleDelete}
                 />
+                <TypeModal isOpen={isOpen} onClose={onClose} type={type} isEditing />
             </Td>
         </Tr>
     );

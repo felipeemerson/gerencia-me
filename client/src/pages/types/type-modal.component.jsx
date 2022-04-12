@@ -11,17 +11,18 @@ import {
 
 import TypeForm from './type-form.component';
 
-const TypeModal = ({ isOpen, onClose }) => {
+const TypeModal = ({ isOpen, onClose, type }) => {
+    const isEditing = Boolean(type);
 
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                <ModalHeader>Criar novo tipo</ModalHeader>
+                <ModalHeader>{isEditing ? "Editar tipo": "Criar tipo" }</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <TypeForm handleClose={onClose} />
+                    <TypeForm handleClose={onClose} type={type} />
                 </ModalBody>
                 </ModalContent>
             </Modal>

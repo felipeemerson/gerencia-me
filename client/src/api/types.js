@@ -30,6 +30,19 @@ async function createType(accessToken, type) {
     return data;
 }
 
+async function updateType(accessToken, type) {
+    const { data } = await axios({
+        url: TYPES_URL + `/${type._id}`,
+        method: 'put',
+        headers: {
+            "Authorization": accessToken
+        },
+        data: type
+    });
+
+    return data;
+}
+
 async function deleteType(accessToken, typeId) {
     const { data } = await axios({
         url: TYPES_URL + `/${typeId}`,
@@ -53,6 +66,17 @@ export function useCreateType() {
         onSuccess: async (result, variables, context) => {
             await queryClient.cancelQueries('types');
             queryClient.setQueryData('types', old => [...old, result]);
+        }
+    });
+}
+
+export function useUpdateType() {
+    const queryClient = useQueryClient();
+
+    return useMutation(({ accessToken, type }) => updateType(accessToken, type), {
+        onSuccess: async (result, variables, context) => {
+            await queryClient.cancelQueries('types');
+            queryClient.setQueryData('types', old => old.map(type => type._id === result._id ? result : type));
         }
     });
 }
