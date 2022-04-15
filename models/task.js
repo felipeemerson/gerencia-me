@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const STATUS_ENUM = ['A fazer', 'Fazendo', 'Feito'];
+const STATUS_ENUM = ['todo', 'doing', 'done'];
 
 const Task = mongoose.model(
     "Task",
@@ -17,7 +17,7 @@ const Task = mongoose.model(
             required: true
         },
         userId: mongoose.Schema.Types.ObjectId,
-        typeId: mongoose.Schema.Types.ObjectId
+        typeId: String
     })
 );
 
@@ -25,7 +25,9 @@ function validateTask(task) {
     const schema = Joi.object({
         title: Joi.string().max(100).required(),
         status: Joi.string().valid(...STATUS_ENUM).required(),
-        typeId: Joi.objectId().required()
+        typeId: Joi.string().allow(""),
+        userId: Joi.objectId(),
+        _id: Joi.objectId()
     });
 
     return schema.validate(task);
