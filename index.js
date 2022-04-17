@@ -25,6 +25,10 @@ const app = express();
 
 app.use(express.json());
 
+app.use('/api/users', users);
+app.use('/api/types', types);
+app.use('/api/tasks', tasks);
+app.use('/api/auth', auth);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname,'client/build')));
@@ -33,11 +37,6 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
     });
 }
-
-app.use('/api/users', users);
-app.use('/api/types', types);
-app.use('/api/tasks', tasks);
-app.use('/api/auth', auth);
 
 const port = process.env.PORT || 5001;
 

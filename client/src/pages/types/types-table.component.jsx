@@ -13,6 +13,8 @@ import TypeTr from './type-tr.component';
 
 const TypesTable = ({ types }) => {
 
+    console.log('types: ', types);
+
     return (
         <>
             <TableContainer m='5' mr='auto' ml='auto' maxW='xl'>
@@ -26,7 +28,7 @@ const TypesTable = ({ types }) => {
                     </Thead>
                     <Tbody>
                         {
-                            [...types].map(type => <TypeTr type={type} key={type._id} />)
+                            types.map(type => <TypeTr type={type} key={type._id} />)
                         }
                     </Tbody>
                 </Table>
