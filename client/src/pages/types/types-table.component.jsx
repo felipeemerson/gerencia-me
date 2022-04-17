@@ -13,8 +13,6 @@ import TypeTr from './type-tr.component';
 
 const TypesTable = ({ types }) => {
 
-    console.log('types: ', types);
-
     return (
         <>
             <TableContainer m='5' mr='auto' ml='auto' maxW='xl'>
