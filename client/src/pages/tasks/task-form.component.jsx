@@ -112,8 +112,8 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
                         <RadioGroup onChange={handleStatusChange} value={formik.values.status}>
                             <Stack direction='row'>
                                 <Radio value='todo'>A fazer</Radio>
-                                <Radio value='doing'>Fazendo</Radio>
-                                <Radio value='done'>Feito</Radio>
+                                <Radio value='doing'>Em progresso</Radio>
+                                <Radio value='done'>Concluída</Radio>
                             </Stack>
                         </RadioGroup>
                     </FormControl>
