@@ -8,21 +8,24 @@ const AuthContext = createContext({
     login: () => {},
     logout: () => {},
     createUserAndDoLogin: () => {},
-    isError: false,
-    error: undefined
+    isLoginError: false,
+    isSignUpError: false,
+    loginError: undefined,
+    signUpError: undefined
 });
 
 export const AuthProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
-    const [isError, setIsError] = useState(false);
-    const [error, setError] = useState(undefined);
-
+    const [isLoginError, setIsLoginError] = useState(false);
+    const [isSignUpError, setIsSignUpError] = useState(false);
+    const [loginError, setLoginError] = useState(undefined);
+    const [signUpError, setSignUpError] = useState(undefined);
 
     useEffect(() => {
-    const storagedToken = localStorage.getItem('accessToken');
+        const storagedToken = localStorage.getItem('accessToken');
 
-    if (storagedToken) {
-        setAccessToken(storagedToken);
+        if (storagedToken) {
+            setAccessToken(storagedToken);
     }
     }, []);
 
@@ -32,9 +35,9 @@ export const AuthProvider = ({ children }) => {
                 setAccessToken(token);
                 localStorage.setItem('accessToken', token);
             })
-            .catch((error) => {
-                setIsError(true);
-                setError(error);
+            .catch((err) => {
+                setIsLoginError(true);
+                setLoginError(err.response.data);
             });
     }
 
@@ -49,12 +52,25 @@ export const AuthProvider = ({ children }) => {
                 setAccessToken(token);
                 localStorage.setItem('accessToken', token);
             })
-            .catch(error => console.log('Erro no cadastro: ', error));
+            .catch(err => {
+                setIsSignUpError(true);
+                setSignUpError(err.response.data);
+            });
     }
 
     return (
         <AuthContext.Provider
-          value={{ isLoggedIn: Boolean(accessToken), accessToken, login, logout, createUserAndDoLogin, isError, error }}
+            value={{
+              isLoggedIn: Boolean(accessToken),
+              accessToken,
+              login,
+              logout,
+              createUserAndDoLogin,
+              isLoginError,
+              isSignUpError,
+              loginError,
+              signUpError
+            }}
         >
           {children}
         </AuthContext.Provider>

@@ -17,6 +17,8 @@ import {
     Link
 } from '@chakra-ui/react';
 
+import FormError from '../../components/form-error/form-error.component';
+
 const validationSchema = yup.object({
     email: yup
         .string()
@@ -40,7 +42,7 @@ const validationSchema = yup.object({
 
 const SignUpForm = ({ handleChangePage }) => {
     const auth = useAuth();
-    const { createUserAndDoLogin } = auth;
+    const { createUserAndDoLogin, isSignUpError, signUpError } = auth;
 
     const formik = useFormik({
         initialValues: {
@@ -62,6 +64,9 @@ const SignUpForm = ({ handleChangePage }) => {
                 <Heading size="lg">Cadastre-se</Heading>
                 <form onSubmit={formik.handleSubmit}>
                     <VStack spacing={4}>
+                        {
+                            isSignUpError ? <FormError error={{ response: { data: signUpError } }} /> : null
+                        }
                         <FormControl isInvalid={formik.touched.name && Boolean(formik.errors.name)} isRequired>
                             <FormLabel htmlFor='name'>Nome</FormLabel>
                                 <Input

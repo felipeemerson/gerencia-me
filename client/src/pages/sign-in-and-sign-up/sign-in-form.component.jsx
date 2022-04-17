@@ -39,7 +39,7 @@ const validationSchema = yup.object({
 
 const SignInForm = ({ handleChangePage }) => {
     const auth = useAuth();
-    const { login, isError, error } = auth;
+    const { login, isLoginError, loginError } = auth;
 
     const formik = useFormik({
         initialValues: {
@@ -65,7 +65,7 @@ const SignInForm = ({ handleChangePage }) => {
                 <form onSubmit={formik.handleSubmit}>
                     <VStack spacing={4}>
                         {
-                            isError ? <FormError error={error} /> : null
+                            isLoginError ? <FormError error={{ response: { data: loginError } }} /> : null
                         }
                         <FormControl isInvalid={formik.touched.email && Boolean(formik.errors.email)} isRequired>
                             <FormLabel htmlFor='email'>Email</FormLabel>
