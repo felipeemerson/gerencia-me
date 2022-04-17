@@ -7,11 +7,15 @@ const AuthContext = createContext({
     isLoggedIn: false,
     login: () => {},
     logout: () => {},
-    createUserAndDoLogin: () => {}
+    createUserAndDoLogin: () => {},
+    isError: false,
+    error: undefined
 });
 
 export const AuthProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
+    const [isError, setIsError] = useState(false);
+    const [error, setError] = useState(undefined);
 
 
     useEffect(() => {
@@ -24,11 +28,14 @@ export const AuthProvider = ({ children }) => {
 
     async function login(credentials) {
         await doLogin(credentials)
-            .then(token => {
+            .then(({ data: token }) => {
                 setAccessToken(token);
                 localStorage.setItem('accessToken', token);
             })
-            .catch(error => console.log('Erro no login: ', error));
+            .catch((error) => {
+                setIsError(true);
+                setError(error);
+            });
     }
 
     function logout() {
@@ -47,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-          value={{ isLoggedIn: Boolean(accessToken), accessToken, login, logout, createUserAndDoLogin }}
+          value={{ isLoggedIn: Boolean(accessToken), accessToken, login, logout, createUserAndDoLogin, isError, error }}
         >
           {children}
         </AuthContext.Provider>

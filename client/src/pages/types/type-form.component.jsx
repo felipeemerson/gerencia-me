@@ -11,11 +11,11 @@ import {
     FormErrorMessage,
     Input,
     Button,
-    Alert,
-    AlertIcon
+    useToast
 } from '@chakra-ui/react';
 
 import ColorPicker from '../../components/color-picker/color-picker.component';
+import FormError from '../../components/form-error/form-error.component';
 
 const validationSchema = yup.object({
     name: yup
@@ -24,11 +24,22 @@ const validationSchema = yup.object({
         .required('Nome do tipo é obrigatório')
 });
 
-const TypeForm = ({ handleClose, type }) => {
+const TypeForm = ({ handleClose, type, initialFocusRef }) => {
     const auth = useAuth();
     const createTypeMutation = useCreateType();
     const updateTypeMutation = useUpdateType();
+    const toast = useToast();
     const isEditing = Boolean(type);
+
+    const handleSuccess = () => {
+        toast({
+            title: `Tipo ${isEditing ? 'editado' : 'criado'} com sucesso`,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        handleClose();
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -45,9 +56,10 @@ const TypeForm = ({ handleClose, type }) => {
                         _id: type._id,
                         userId: type.userId
                     }
-                })
+                }, { onSuccess: handleSuccess })
             :
-                createTypeMutation.mutate({ accessToken: auth.accessToken, type: values });
+                createTypeMutation.mutate({ accessToken: auth.accessToken, type: values }, { onSuccess: handleSuccess });
+                
         }
     });
 
@@ -55,32 +67,18 @@ const TypeForm = ({ handleClose, type }) => {
         formik.setFieldValue('color', color);
     }
 
-    if (createTypeMutation.isSuccess || updateTypeMutation.isSuccess) {
-        handleClose();
-    }
-
-    const hasError = () => {
-        return updateTypeMutation.isError || createTypeMutation.isError;
-    }
-
-    const getError = () => {
-        return isEditing ?
-            updateTypeMutation.error.response.data
+    const isError = updateTypeMutation.isError || createTypeMutation.isError;
+    const error = updateTypeMutation.isError ?
+            updateTypeMutation.error
         :
-            createTypeMutation.error.response.data;
-    }
+            createTypeMutation.error;
 
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
                 <VStack spacing={4}>
                     {
-                        hasError() ? (
-                            <Alert status='error'>
-                                <AlertIcon />
-                                {getError()}
-                            </Alert>
-                        ) : null
+                        isError ? <FormError error={error} /> : null
                     }
 
                     <FormControl isInvalid={formik.touched.name && Boolean(formik.errors.name)} isRequired>
@@ -91,6 +89,7 @@ const TypeForm = ({ handleClose, type }) => {
                                 placeholder='Digite o nome do tipo'
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
+                                ref={initialFocusRef}
                             />
                         <FormErrorMessage>
                         {formik.touched.name && formik.errors.name}

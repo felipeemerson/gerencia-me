@@ -10,18 +10,38 @@ import {
     Text,
     Box,
     IconButton,
-    useDisclosure
+    useDisclosure,
+    useToast
 } from '@chakra-ui/react';
 
 import TypeModal from './type-modal.component';
 
 const TypeTr = ({ type }) => {
     const auth = useAuth();
-    const { mutate } = useDeleteType();
+    const { mutate, error } = useDeleteType();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
+
+    const handleSuccess = () => {
+        toast({
+            title: 'Tipo deletado com sucesso',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+    };
+
+    const handleError = () => {
+        toast({
+            title: error.response.data,
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
+    }
 
     const handleDelete = () => {
-        mutate({ accessToken: auth.accessToken, typeId: type._id });
+        mutate({ accessToken: auth.accessToken, typeId: type._id }, { onSuccess: handleSuccess, onError: handleError });
     }
 
     return (

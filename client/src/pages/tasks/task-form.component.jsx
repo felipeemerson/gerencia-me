@@ -16,9 +16,10 @@ import {
     Radio,
     Select,
     Button,
-    Alert,
-    AlertIcon
+    useToast
 } from '@chakra-ui/react';
+
+import FormError from '../../components/form-error/form-error.component';
 
 const validationSchema = yup.object({
     title: yup
@@ -31,15 +32,26 @@ const validationSchema = yup.object({
         .required('Status é obrigatório')
 });
 
-const TaskForm =  ({ task, handleClose }) => {
+const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
     const isEditing = Boolean(task);
     const hasType = Boolean(task?.typeId);
 
     const auth = useAuth();
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
+    const getAlltypesQuery = useGetAllTypesFromUser(auth.accessToken);
+    
+    const toast = useToast();
 
-    const { data, isLoading } = useGetAllTypesFromUser(auth.accessToken);
+    const handleSuccess = () => {
+        handleClose();
+        toast({
+            title: `Tarefa ${isEditing ? 'editada' : 'criada'} com sucesso`,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -50,9 +62,13 @@ const TaskForm =  ({ task, handleClose }) => {
         validationSchema,
         onSubmit: (values) => {
             isEditing ?
-                updateTaskMutation.mutate({ accessToken: auth.accessToken, task: { ...values, _id: task._id, userId: task.userId } })
-            :
-                createTaskMutation.mutate({ accessToken: auth.accessToken, task: values })
+                updateTaskMutation.mutate({
+                        accessToken: auth.accessToken,
+                        task: { ...values, _id: task._id,userId: task.userId }
+                    },
+                    { onSuccess: handleSuccess }
+                ) :
+                    createTaskMutation.mutate({ accessToken: auth.accessToken, task: values }, { onSuccess: handleSuccess })
         }
     });
 
@@ -64,14 +80,22 @@ const TaskForm =  ({ task, handleClose }) => {
         formik.setFieldValue('typeId', event.target.value);
     }
 
-    if (createTaskMutation.isSuccess || updateTaskMutation.isSuccess) {
-        handleClose();
-    }
+    const typesIsLoading = getAlltypesQuery.isLoading;
+    const types = getAlltypesQuery.data;
+    const isError = createTaskMutation.isError || updateTaskMutation.isError || getAlltypesQuery.isError;
+    const error = createTaskMutation.isError ? createTaskMutation.error
+        :
+            updateTaskMutation.isError ? updateTaskMutation.error
+            :
+                getAlltypesQuery.error;
 
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
                 <VStack>
+                    {                      
+                        isError ? <FormError error={error} /> : null
+                    }
                     <FormControl isInvalid={formik.touched.title && Boolean(formik.errors.title)} isRequired>
                         <FormLabel htmlFor='title'>Descrição</FormLabel>
                         <Input
@@ -80,6 +104,7 @@ const TaskForm =  ({ task, handleClose }) => {
                             placeholder='Digite a descrição'
                             value={formik.values.title}
                             onChange={formik.handleChange}
+                            ref={initialFocusRef}
                         />
                         <FormErrorMessage>
                         {formik.touched.title && formik.errors.title}
@@ -101,7 +126,7 @@ const TaskForm =  ({ task, handleClose }) => {
                         <FormLabel htmlFor='typeId'>Tipo da tarefa</FormLabel>
                         <Select placeholder='Selecione o tipo da tarefa' onChange={handleTypeIdChange} value={formik.values.typeId}>
                         {
-                            isLoading ? null : data.map(type => <option key={type._id} value={type._id}>{type.name}</option>)
+                            typesIsLoading ? null : types.map(type => <option key={type._id} value={type._id}>{type.name}</option>)
                         }
                         </Select>
                     </FormControl>

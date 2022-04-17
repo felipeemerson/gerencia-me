@@ -24,6 +24,8 @@ import {
     Link
 } from '@chakra-ui/react';
 
+import FormError from '../../components/form-error/form-error.component';
+
 const validationSchema = yup.object({
     email: yup
         .string()
@@ -37,7 +39,7 @@ const validationSchema = yup.object({
 
 const SignInForm = ({ handleChangePage }) => {
     const auth = useAuth();
-    const { login } = auth;
+    const { login, isError, error } = auth;
 
     const formik = useFormik({
         initialValues: {
@@ -45,7 +47,7 @@ const SignInForm = ({ handleChangePage }) => {
             password: ''
         },
         validationSchema: validationSchema,
-        onSubmit: values => {
+        onSubmit: (values) => {
             login(values);
         }
     });
@@ -62,6 +64,9 @@ const SignInForm = ({ handleChangePage }) => {
                 <Heading size="lg">Entre</Heading>
                 <form onSubmit={formik.handleSubmit}>
                     <VStack spacing={4}>
+                        {
+                            isError ? <FormError error={error} /> : null
+                        }
                         <FormControl isInvalid={formik.touched.email && Boolean(formik.errors.email)} isRequired>
                             <FormLabel htmlFor='email'>Email</FormLabel>
                                 <Input

@@ -8,14 +8,15 @@ import { AiOutlineEllipsis } from 'react-icons/ai';
 
 import {
     Flex,
-    Heading,
+    Text,
     Badge,
     IconButton,
     Menu,
     MenuButton,
     MenuList,
     MenuItem,
-    useDisclosure
+    useDisclosure,
+    useToast
 } from '@chakra-ui/react';
 
 import TaskModal from './task-modal.component';
@@ -25,9 +26,28 @@ const TaskCard = ({ task, type, index }) => {
     const hasType = Boolean(type);
     const auth = useAuth();
     const deleteTaskMutation = useDeleteTask();
+    const toast = useToast();
+
+    const handleSuccess = () => {
+        toast({
+            title: 'Tarefa deletada com sucesso',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+    };
+
+    const handleError = () => {
+        toast({
+            title: deleteTaskMutation.error.response.data,
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
+    }
 
     const handleDelete = () => {
-        deleteTaskMutation.mutate({ accessToken: auth.accessToken, taskId: task._id });
+        deleteTaskMutation.mutate({ accessToken: auth.accessToken, taskId: task._id }, { onSuccess: handleSuccess, onError: handleError });
     }
     
     return (
@@ -50,7 +70,7 @@ const TaskCard = ({ task, type, index }) => {
                     >
                         
                         <Flex direction='row' justify='space-between'>
-                            <Heading as='h4' size='md'>{task.title}</Heading>
+                            <Text textShadow="rgba(255, 255, 255, 0.7) 1px 1px 1px 1px" textColor={hasType ? type.color.split('.')[0] + '.800' : 'black'}>{task.title}</Text>
                             <Menu>
                                 <MenuButton size='sm' variant='ghost' as={IconButton} icon={<AiOutlineEllipsis />} />
                                 <MenuList minW='15px'>
