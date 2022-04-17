@@ -122,7 +122,7 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
                         <FormLabel htmlFor='typeId'>Tipo da tarefa</FormLabel>
                         <Select placeholder='Selecione o tipo da tarefa' onChange={handleTypeIdChange} value={formik.values.typeId}>
                         {
-                            typesIsLoading ? null : types.map(type => <option key={type._id} value={type._id}>{type.name}</option>)
+                            typesIsLoading ? null : [...types].map(type => <option key={type._id} value={type._id}>{type.name}</option>)
                         }
                         </Select>
                     </FormControl>

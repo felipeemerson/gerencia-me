@@ -26,7 +26,7 @@ const TypesTable = ({ types }) => {
                     </Thead>
                     <Tbody>
                         {
-                            types.map(type => <TypeTr type={type} key={type._id} />)
+                            [...types].map(type => <TypeTr type={type} key={type._id} />)
                         }
                     </Tbody>
                 </Table>
