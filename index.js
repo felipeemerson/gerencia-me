@@ -24,6 +24,15 @@ const app = express();
 
 app.use(express.json());
 
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname,'client/build')));
+
+    app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+    });
+}
+
 app.use('/api/users', users);
 app.use('/api/types', types);
 app.use('/api/tasks', tasks);
