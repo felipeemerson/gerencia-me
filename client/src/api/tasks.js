@@ -53,6 +53,16 @@ async function deleteTask(accessToken, taskId) {
     return data;
 }
 
+async function deleteTasksFromStatus(accessToken, status) {
+    await axios({
+        url: TASKS_URL + `/status/${status}`,
+        method: 'delete',
+        headers: {
+            "Authorization": accessToken
+        }
+    });
+}
+
 export function useGetAllTasks(accessToken) {
     return useQuery('tasks', () => getAllTasks(accessToken));
 }
@@ -106,6 +116,17 @@ export function useDeleteTask() {
         onSuccess: async (result, variables, context) => {
             await queryClient.cancelQueries('tasks');
             queryClient.setQueryData('tasks', old => old.filter(task => task._id !== result._id));
+        }
+    })
+}
+
+export function useDeleteTasksFromStatus() {
+    const queryClient = useQueryClient();
+
+    return useMutation(({ accessToken, status }) => deleteTasksFromStatus(accessToken, status), {
+        onSuccess: async (result, variables, context) => {
+            await queryClient.cancelQueries('tasks');
+            queryClient.setQueryData('tasks', old => old.filter(task => task.status !== variables.status));
         }
     })
 }

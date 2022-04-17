@@ -53,4 +53,13 @@ router.delete('/:id', auth, async (req, res) => {
     return res.send(task);
 });
 
+router.delete('/status/:status', auth, async (req, res) => {
+    const validStatuses = ['todo', 'doing', 'done'];
+    if (!validStatuses.includes(req.params.status)) return res.status(400).send("Invalid status");
+
+    await Task.deleteMany({ userId: req.user._id, status: req.params.status });
+
+    return res.send();
+})
+
 module.exports = router;
