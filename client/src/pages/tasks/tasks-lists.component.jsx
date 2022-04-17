@@ -62,19 +62,19 @@ const TasksLists = ({ tasks, types, onCreateTask }) => {
                 <VStack mt='30' mb='15px'>
                     <Stack direction={isLargeThan1280 ? 'row' : 'column'} justifyContent='space-evenly'>
                         <TasksList
-                            tasks={tasks.filter(task => task.status === 'todo')}
+                            tasks={[...tasks].filter(task => task.status === 'todo')}
                             types={types}
                             status='todo'
                         />
 
                         <TasksList
-                            tasks={tasks.filter(task => task.status === 'doing')}
+                            tasks={[...tasks].filter(task => task.status === 'doing')}
                             types={types}
                             status='doing'
                         />
 
                         <TasksList
-                            tasks={tasks.filter(task => task.status === 'done')}
+                            tasks={[...tasks].filter(task => task.status === 'done')}
                             types={types}
                             status='done'
                         />
