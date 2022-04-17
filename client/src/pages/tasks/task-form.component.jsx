@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { useAuth } from '../../contexts/auth.context';
 import { useCreateTask, useUpdateTask } from '../../api/tasks';
 import { useGetAllTypesFromUser } from '../../api/types';
+import { getSuccessfulToastObject } from '../../utils/toast';
 
 import {
     VStack,
@@ -45,12 +46,7 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
 
     const handleSuccess = () => {
         handleClose();
-        toast({
-            title: `Tarefa ${isEditing ? 'editada' : 'criada'} com sucesso`,
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getSuccessfulToastObject(`Tarefa ${isEditing ? 'editada' : 'criada'} com sucesso`));
     }
 
     const formik = useFormik({

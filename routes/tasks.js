@@ -18,7 +18,7 @@ router.post('/', [auth, validate_middleware(validate)], async (req, res) => {
 
     if (hasType) {
         const type = await Type.findById(req.body.typeId);
-        if (!type) return res.status(400).send("The type with the given typeId was not found.");
+        if (!type) return res.status(400).send("The type with the given typeId was not found");
 
         task.typeId = req.body.typeId;
     }
@@ -41,14 +41,14 @@ router.put('/:id', [auth, validate_middleware(validate)], async (req, res) => {
         typeId: req.body.typeId
     }, { new: true });
     
-    if (!task) return res.status(404).send("The task with the given ID was not found.");
+    if (!task) return res.status(404).send("The task with the given ID was not found");
     
     return res.send(task);
 });
 
 router.delete('/:id', auth, async (req, res) => {
     const task = await Task.findByIdAndRemove(req.params.id);
-    if (!task) return res.status(404).send("The task with the given ID was not found.");
+    if (!task) return res.status(404).send("The task with the given ID was not found");
 
     return res.send(task);
 });

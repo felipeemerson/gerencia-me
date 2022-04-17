@@ -8,9 +8,10 @@ import {
 import { useAuth } from './contexts/auth.context';
 
 import Header from './components/header/header.component';
-import TypesPage from './pages/types/types.component';
-import TasksPage from './pages/tasks/tasks.component';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import TypesPage from './pages/types/types.page';
+import TasksPage from './pages/tasks/tasks.page';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.page';
+import NotFoundPage from './pages/not-found/not-found.page';
 
 function App() {
   const auth = useAuth();
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/' element={isLoggedIn ? <TasksPage /> : <Navigate to ="/login" />} />
         <Route exact path='/types' element={isLoggedIn ? <TypesPage /> : <Navigate to ="/login" />} />
         <Route exact path='/login' element={isLoggedIn ? <Navigate to ="/" /> : <SignInAndSignUpPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

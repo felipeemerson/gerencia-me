@@ -33,7 +33,7 @@ router.put('/:id', [auth, validate_middleware(validate)], async (req, res) => {
         color: req.body.color
     }, { new: true });
 
-    if (!type) return res.status(404).send("The type with the given ID was not found.");
+    if (!type) return res.status(404).send("The type with the given ID was not found");
 
     return res.send(type);
 });
@@ -41,7 +41,7 @@ router.put('/:id', [auth, validate_middleware(validate)], async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
     const type = await Type.findByIdAndRemove(req.params.id);
 
-    if (!type) return res.status(404).send("The type with the given ID was not found.");
+    if (!type) return res.status(404).send("The type with the given ID was not found");
 
     return res.send(type);
 })

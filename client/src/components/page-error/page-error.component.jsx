@@ -1,4 +1,5 @@
 import React from 'react';
+import { getTranslation } from '../../utils/errors.translation';
 
 import {
     Alert,
@@ -23,7 +24,7 @@ const PageError = ({ error }) => {
             >
                 <AlertIcon boxSize='40px' mr={0} />
                 <AlertTitle mt={4} mb={1} fontSize='lg'>
-                    {error?.response?.data}
+                    {getTranslation(error?.response?.data)}
                 </AlertTitle>
                 <AlertDescription maxWidth='sm'>
                     Tente novamente!

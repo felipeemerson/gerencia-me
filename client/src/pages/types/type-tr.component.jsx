@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../contexts/auth.context';
 import { useDeleteType } from '../../api/types';
+import { getSuccessfulToastObject, getErrorToastObject } from '../../utils/toast';
 
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 
@@ -23,21 +24,11 @@ const TypeTr = ({ type }) => {
     const toast = useToast();
 
     const handleSuccess = () => {
-        toast({
-            title: 'Tipo deletado com sucesso',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getSuccessfulToastObject('Tipo deletado com sucesso'));
     };
 
     const handleError = () => {
-        toast({
-            title: error.response.data,
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getErrorToastObject(error));
     }
 
     const handleDelete = () => {

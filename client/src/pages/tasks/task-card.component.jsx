@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../contexts/auth.context';
 import { useDeleteTask } from '../../api/tasks';
+import { getSuccessfulToastObject, getErrorToastObject } from '../../utils/toast';
 
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -29,21 +30,11 @@ const TaskCard = ({ task, type, index }) => {
     const toast = useToast();
 
     const handleSuccess = () => {
-        toast({
-            title: 'Tarefa deletada com sucesso',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getSuccessfulToastObject('Tarefa deletada com sucesso'));
     };
 
     const handleError = () => {
-        toast({
-            title: deleteTaskMutation.error.response.data,
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getErrorToastObject(deleteTaskMutation.error));
     }
 
     const handleDelete = () => {

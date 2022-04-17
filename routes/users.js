@@ -10,14 +10,14 @@ const { User, validate } = require('../models/user');
 
 router.get('/me', auth, async(req, res) => {
     const user = await User.findById(req.user._id).select("-password");
-    if (!user) return res.status(404).send("The user with the given ID was not found.");
+    if (!user) return res.status(404).send("The user with the given ID was not found");
 
     return res.send(user);
 });
 
 router.post('/', validate_middleware(validate), async(req, res) => {
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send("User already registered.");
+    if (user) return res.status(400).send("User already registered");
 
     user = new User({
         name: req.body.name,

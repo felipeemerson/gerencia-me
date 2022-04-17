@@ -44,6 +44,8 @@ export const AuthProvider = ({ children }) => {
     function logout() {
         setAccessToken(null);
         localStorage.removeItem('accessToken');
+        setIsLoginError(false);
+        setIsSignUpError(false);
     }
 
     async function createUserAndDoLogin(user) {

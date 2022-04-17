@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../../contexts/auth.context';
 import { useCreateType, useUpdateType } from '../../api/types';
+import { getSuccessfulToastObject } from '../../utils/toast';
 
 import {
     VStack,
@@ -32,12 +33,7 @@ const TypeForm = ({ handleClose, type, initialFocusRef }) => {
     const isEditing = Boolean(type);
 
     const handleSuccess = () => {
-        toast({
-            title: `Tipo ${isEditing ? 'editado' : 'criado'} com sucesso`,
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-        });
+        toast(getSuccessfulToastObject(`Tipo ${isEditing ? 'editado' : 'criado'} com sucesso`));
         handleClose();
     }
 

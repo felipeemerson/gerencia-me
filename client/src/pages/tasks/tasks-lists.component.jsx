@@ -1,13 +1,15 @@
 import React from 'react';
 import { useAuth } from '../../contexts/auth.context';
 import { useUpdateTask } from '../../api/tasks';
+import { getSuccessfulToastObject, getErrorToastObject } from '../../utils/toast';
 
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import {
     VStack,
     Stack,
-    useMediaQuery
+    useMediaQuery,
+    useToast
 } from '@chakra-ui/react';
 
 import TasksList from './tasks-list.component';
@@ -16,6 +18,15 @@ const TasksLists = ({ tasks, types, onCreateTask }) => {
     const auth = useAuth();
     const updateTaskMutation = useUpdateTask();
     const [ isLargeThan1280 ] = useMediaQuery('(min-width: 1280px)');
+    const toast = useToast();
+
+    const handleSuccess = () => {
+        toast(getSuccessfulToastObject('Tarefa movida com sucesso'));
+    }
+
+    const handleError = () => {
+        toast(getErrorToastObject(updateTaskMutation.error));
+    }
 
     const handleDragEnd = result => {
         const { draggableId, source, destination } = result;
@@ -39,7 +50,7 @@ const TasksLists = ({ tasks, types, onCreateTask }) => {
             status: destination.droppableId,
             userId: task.userId,
             typeId: task.typeId
-        }});
+        }}, { onSuccess : handleSuccess, onError: handleError });
     }
 
     return (
