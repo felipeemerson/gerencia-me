@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const Type = mongoose.model(
-    "Type",
+const Category = mongoose.model(
+    "Category",
     new mongoose.Schema({
         name: {
             type: String,
@@ -17,7 +17,7 @@ const Type = mongoose.model(
     })
 );
 
-function validateType(type) {
+function validateCategory(category) {
     const schema = Joi.object({
         name: Joi.string().max(25).required(),
         color: Joi.string().required(),
@@ -25,8 +25,8 @@ function validateType(type) {
         userId: Joi.objectId()
     });
 
-    return schema.validate(type);
+    return schema.validate(category);
 }
 
-exports.Type = Type;
-exports.validate = validateType;
+exports.Category = Category;
+exports.validate = validateCategory;

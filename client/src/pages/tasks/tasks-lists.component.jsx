@@ -14,7 +14,7 @@ import {
 
 import TasksList from './tasks-list.component';
 
-const TasksLists = ({ tasks, types, onCreateTask }) => {
+const TasksLists = ({ tasks, categories }) => {
     const auth = useAuth();
     const updateTaskMutation = useUpdateTask();
     const [ isLargeThan1280 ] = useMediaQuery('(min-width: 1280px)');
@@ -49,7 +49,7 @@ const TasksLists = ({ tasks, types, onCreateTask }) => {
             title: task.title,
             status: destination.droppableId,
             userId: task.userId,
-            typeId: task.typeId
+            categoryId: task.categoryId
         }}, { onSuccess : handleSuccess, onError: handleError });
     }
 
@@ -63,19 +63,19 @@ const TasksLists = ({ tasks, types, onCreateTask }) => {
                     <Stack direction={isLargeThan1280 ? 'row' : 'column'} justifyContent='space-evenly'>
                         <TasksList
                             tasks={tasks.filter(task => task.status === 'todo')}
-                            types={types}
+                            categories={categories}
                             status='todo'
                         />
 
                         <TasksList
                             tasks={tasks.filter(task => task.status === 'doing')}
-                            types={types}
+                            categories={categories}
                             status='doing'
                         />
 
                         <TasksList
                             tasks={tasks.filter(task => task.status === 'done')}
-                            types={types}
+                            categories={categories}
                             status='done'
                         />
                     </Stack>

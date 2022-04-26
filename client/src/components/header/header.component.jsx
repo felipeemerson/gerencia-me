@@ -43,7 +43,7 @@ const Header = () => {
                 isLargeThan1280 ? (
                     <>
                         <HStack divider={<StackDivider borderColor='blue.200' />} mx='4em' spacing='5' p='1em'>
-                            <Link as={NavLink} color='blue.600' to='/types'>Tipos</Link>
+                            <Link as={NavLink} color='blue.600' to='/categories'>Categorias</Link>
                             <Link as={NavLink} color='blue.600' to='/'>Tarefas</Link>
                         </HStack>
                         <Spacer />
@@ -52,10 +52,10 @@ const Header = () => {
                     <>
                         <Spacer />
                         <Box mr='5px'>
-                            <Menu>
+                            <Menu autoSelect={false}>
                                     <MenuButton colorScheme='blue' variant='solid' as={IconButton} icon={<AiOutlineMenu />} />
                                     <MenuList minW='20px'>
-                                        <MenuItem as={NavLink} to='types'>Tipos</MenuItem>
+                                        <MenuItem as={NavLink} to='categories'>Categorias</MenuItem>
                                         <MenuItem as={NavLink} to='/'>Tarefas</MenuItem>
                                     </MenuList>
                             </Menu>

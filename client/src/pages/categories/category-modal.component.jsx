@@ -9,10 +9,10 @@ import {
     ModalBody
 } from '@chakra-ui/react';
 
-import TypeForm from './type-form.component';
+import CategoryForm from './category-form.component';
 
-const TypeModal = ({ isOpen, onClose, type }) => {
-    const isEditing = Boolean(type);
+const CategoryModal = ({ isOpen, onClose, category }) => {
+    const isEditing = Boolean(category);
     const initialRef = useRef();
 
     return (
@@ -20,10 +20,10 @@ const TypeModal = ({ isOpen, onClose, type }) => {
             <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
                 <ModalOverlay />
                 <ModalContent>
-                <ModalHeader>{isEditing ? "Editar tipo": "Criar tipo" }</ModalHeader>
+                <ModalHeader>{isEditing ? "Editar categoria": "Criar categoria" }</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <TypeForm handleClose={onClose} type={type} initialFocusRef={initialRef} />
+                    <CategoryForm handleClose={onClose} category={category} initialFocusRef={initialRef} />
                 </ModalBody>
                 </ModalContent>
             </Modal>
@@ -31,4 +31,4 @@ const TypeModal = ({ isOpen, onClose, type }) => {
     );
 }
 
-export default TypeModal;
+export default CategoryModal;

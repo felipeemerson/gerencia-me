@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../contexts/auth.context';
-import { useDeleteType } from '../../api/types';
+import { useDeleteCategory } from '../../api/categories';
 import { getSuccessfulToastObject, getErrorToastObject } from '../../utils/toast';
 
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
@@ -15,16 +15,16 @@ import {
     useToast
 } from '@chakra-ui/react';
 
-import TypeModal from './type-modal.component';
+import CategoryModal from './category-modal.component';
 
-const TypeTr = ({ type }) => {
+const CategoryTr = ({ category }) => {
     const auth = useAuth();
-    const { mutate, error } = useDeleteType();
+    const { mutate, error } = useDeleteCategory();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 
     const handleSuccess = () => {
-        toast(getSuccessfulToastObject('Tipo deletado com sucesso'));
+        toast(getSuccessfulToastObject('Categoria removida com sucesso'));
     };
 
     const handleError = () => {
@@ -32,36 +32,36 @@ const TypeTr = ({ type }) => {
     }
 
     const handleDelete = () => {
-        mutate({ accessToken: auth.accessToken, typeId: type._id }, { onSuccess: handleSuccess, onError: handleError });
+        mutate({ accessToken: auth.accessToken, categoryId: category._id }, { onSuccess: handleSuccess, onError: handleError });
     }
 
     return (
         <Tr>
             <Td>
-                <Text>{type.name}</Text>
+                <Text>{category.name}</Text>
             </Td>
             <Td>
-                <Box bg={type.color} padding='5px 0px' />
+                <Box bg={category.color} padding='5px 0px' />
             </Td>
             <Td isNumeric>
                 <IconButton
                     colorScheme='blue'
-                    aria-label='Edit type'
+                    aria-label='Edit category'
                     variant='ghost'
                     icon={<AiOutlineEdit />}
                     onClick={onOpen}
                 />
                 <IconButton
                     colorScheme='blue'
-                    aria-label='Edit type'
+                    aria-label='Delete category'
                     variant='ghost'
                     icon={<AiOutlineDelete />}
                     onClick={handleDelete}
                 />
-                <TypeModal isOpen={isOpen} onClose={onClose} type={type} isEditing />
+                <CategoryModal isOpen={isOpen} onClose={onClose} category={category} isEditing />
             </Td>
         </Tr>
     );
 }
 
-export default TypeTr;
+export default CategoryTr;

@@ -22,9 +22,9 @@ import {
 
 import TaskModal from './task-modal.component';
 
-const TaskCard = ({ task, type, index }) => {
+const TaskCard = ({ task, category, index }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const hasType = Boolean(type);
+    const hasCategory = Boolean(category);
     const auth = useAuth();
     const deleteTaskMutation = useDeleteTask();
     const toast = useToast();
@@ -53,7 +53,7 @@ const TaskCard = ({ task, type, index }) => {
                         borderRadius='lg'
                         p='0.5em'
                         direction='column'
-                        bg={hasType ? type.color : 'gray.400'}
+                        bg={hasCategory ? category.color : 'gray.400'}
                         borderColor='blackAlpha.400'
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
@@ -61,7 +61,7 @@ const TaskCard = ({ task, type, index }) => {
                     >
                         
                         <Flex direction='row' justify='space-between'>
-                            <Text textShadow="rgba(255, 255, 255, 0.7) 1px 1px 1px 1px" textColor={hasType ? type.color.split('.')[0] + '.800' : 'black'}>{task.title}</Text>
+                            <Text textShadow="rgba(255, 255, 255, 0.7) 1px 1px 1px 1px" textColor={hasCategory ? category.color.split('.')[0] + '.800' : 'black'}>{task.title}</Text>
                             <Menu>
                                 <MenuButton size='sm' variant='ghost' as={IconButton} icon={<AiOutlineEllipsis />} />
                                 <MenuList minW='15px'>
@@ -71,13 +71,13 @@ const TaskCard = ({ task, type, index }) => {
                             </Menu>
                         </Flex>
                         {
-                            hasType ? (
+                            hasCategory ? (
                                 <Flex direction='row' alignSelf='end' mt='auto'>
                                     <Badge
                                         variant='subtle'
-                                        colorScheme={type.color.split('.')[0]}    
+                                        colorScheme={category.color.split('.')[0]}    
                                     >   
-                                        {type.name}
+                                        {category.name}
                                     </Badge>
                                 </Flex>
                             ) : null

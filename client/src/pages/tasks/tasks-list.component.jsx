@@ -28,7 +28,7 @@ import {
 
 import TaskCard from './task-card.component';
 
-const TasksList = ({ tasks, types, status }) => {
+const TasksList = ({ tasks, categories, status }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const auth = useAuth();
     const toast = useToast();
@@ -71,8 +71,8 @@ const TasksList = ({ tasks, types, status }) => {
                         </Flex>
                         <Divider />
                         {
-                            Boolean(types) ? tasks.map((task, index) => (
-                                <TaskCard key={task._id} task={task} index={index} type={types.find(type => type._id === task.typeId)} />
+                            Boolean(categories) ? tasks.map((task, index) => (
+                                <TaskCard key={task._id} task={task} index={index} category={categories.find(category => category._id === task.categoryId)} />
                             )) : null
                         }
                         { provided.placeholder }

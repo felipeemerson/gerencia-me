@@ -5,7 +5,7 @@ const validate_middleware = require('../middlewares/validation');
 const auth = require('../middlewares/auth');
 
 const { Task, validate } = require('../models/task');
-const { Type } = require('../models/type');
+const { Category } = require('../models/category');
 
 router.post('/', [auth, validate_middleware(validate)], async (req, res) => {
     const task = new Task({
@@ -14,13 +14,13 @@ router.post('/', [auth, validate_middleware(validate)], async (req, res) => {
         userId: req.user._id
     });
 
-    const hasType = Boolean(req.body.typeId);
+    const hasCategory = Boolean(req.body.categoryId);
 
-    if (hasType) {
-        const type = await Type.findById(req.body.typeId);
-        if (!type) return res.status(400).send("The type with the given typeId was not found");
+    if (hasCategory) {
+        const category = await Category.findById(req.body.categoryId);
+        if (!category) return res.status(400).send("The category with the given categoryId was not found");
 
-        task.typeId = req.body.typeId;
+        task.categoryId = req.body.categoryId;
     }
 
     await task.save();
@@ -38,7 +38,7 @@ router.put('/:id', [auth, validate_middleware(validate)], async (req, res) => {
     const task = await Task.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
         status: req.body.status,
-        typeId: req.body.typeId
+        categoryId: req.body.categoryId
     }, { new: true });
     
     if (!task) return res.status(404).send("The task with the given ID was not found");

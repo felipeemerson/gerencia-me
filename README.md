@@ -44,7 +44,7 @@
 ## About
 
 Gerencia-me it's a simple portfolio application for helping you with your daily tasks.
-Create your categories (types) to highlight specific tasks, create tasks, move tasks as their progress, delete tasks by their status.
+Create your categories to highlight specific tasks, create tasks, move tasks as their progress, delete tasks by their status.
 All of this with a responsive design on both mobile and PC.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -54,7 +54,7 @@ All of this with a responsive design on both mobile and PC.
 
 - [x] Register as user
 - [x] Login as user
-- [x] Create/edit/remove categories (types)
+- [x] Create/edit/remove categories
 - [x] Create/edit/move/remove tasks
 - [x] Delete all tasks by status 
 - [x] Responsive design
@@ -93,7 +93,7 @@ This project has two parts:
   </ul>
 
 ### Pre-requisites
-Before you begin, you will need to have the following tools installed on your machine: [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
+Before you begin, you will need to have the following tools installed on your machine: [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/) and [MongoDB](https://www.mongodb.com/try/download/community).
 In addition, it is good to have an editor to work with the code like [VSCode](https://code.visualstudio.com/)
 
 #### Running both frontend and backend

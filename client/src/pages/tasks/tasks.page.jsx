@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../contexts/auth.context';
 import { useGetAllTasks } from '../../api/tasks';
-import { useGetAllTypesFromUser } from '../../api/types';
+import { useGetAllCategories } from '../../api/categories';
 
 import {
     Heading,
@@ -23,13 +23,13 @@ const TasksPage = () => {
     const auth = useAuth();
 
     const getAllTasksQuery = useGetAllTasks(auth.accessToken);
-    const getAllTypesQuery = useGetAllTypesFromUser(auth.accessToken);
+    const getAllCategoriesQuery = useGetAllCategories(auth.accessToken);
 
     const tasks = getAllTasksQuery.data;
-    const types = getAllTypesQuery.data;
-    const isLoading = getAllTasksQuery.isLoading || getAllTypesQuery.isLoading;
-    const isError = getAllTypesQuery.isError || getAllTasksQuery.isError;
-    const error = getAllTypesQuery.isError ? getAllTypesQuery.error : getAllTasksQuery.isError;
+    const categories = getAllCategoriesQuery.data;
+    const isLoading = getAllTasksQuery.isLoading || getAllCategoriesQuery.isLoading;
+    const isError = getAllCategoriesQuery.isError || getAllTasksQuery.isError;
+    const error = getAllCategoriesQuery.isError ? getAllCategoriesQuery.error : getAllTasksQuery.isError;
     const hasTasks = tasks?.length > 0;
 
     const handleCreateTask = () => {
@@ -52,7 +52,7 @@ const TasksPage = () => {
                     : (
                         <>
                         {
-                            hasTasks ? <TasksLists tasks={tasks} types={types} /> : (
+                            hasTasks ? <TasksLists tasks={tasks} categories={categories} /> : (
                                 <NoItems text="Nenhuma tarefa adicionada ainda!" buttonText="Nova tarefa" onButtonClick={handleCreateTask} />
                             )
                         }

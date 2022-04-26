@@ -9,9 +9,9 @@ import {
     Tr
 } from '@chakra-ui/react';
 
-import TypeTr from './type-tr.component';
+import CategoryTr from './category-tr.component';
 
-const TypesTable = ({ types }) => {
+const CategoriesTable = ({ categories }) => {
 
     return (
         <>
@@ -26,7 +26,7 @@ const TypesTable = ({ types }) => {
                     </Thead>
                     <Tbody>
                         {
-                            types.map(type => <TypeTr type={type} key={type._id} />)
+                            categories.map(category => <CategoryTr category={category} key={category._id} />)
                         }
                     </Tbody>
                 </Table>
@@ -35,4 +35,4 @@ const TypesTable = ({ types }) => {
     );
 }
 
-export default TypesTable;
+export default CategoriesTable;

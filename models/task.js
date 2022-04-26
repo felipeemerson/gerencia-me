@@ -17,7 +17,7 @@ const Task = mongoose.model(
             required: true
         },
         userId: mongoose.Schema.Types.ObjectId,
-        typeId: String
+        categoryId: String
     })
 );
 
@@ -25,7 +25,7 @@ function validateTask(task) {
     const schema = Joi.object({
         title: Joi.string().max(100).required(),
         status: Joi.string().valid(...STATUS_ENUM).required(),
-        typeId: Joi.string().allow(""),
+        categoryId: Joi.string().allow(""),
         userId: Joi.objectId(),
         _id: Joi.objectId()
     });

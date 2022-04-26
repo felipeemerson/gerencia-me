@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../../contexts/auth.context';
 import { useCreateTask, useUpdateTask } from '../../api/tasks';
-import { useGetAllTypesFromUser } from '../../api/types';
+import { useGetAllCategories } from '../../api/categories';
 import { getSuccessfulToastObject } from '../../utils/toast';
 
 import {
@@ -35,12 +35,12 @@ const validationSchema = yup.object({
 
 const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
     const isEditing = Boolean(task);
-    const hasType = Boolean(task?.typeId);
+    const hasCategory = Boolean(task?.categoryId);
 
     const auth = useAuth();
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
-    const getAlltypesQuery = useGetAllTypesFromUser(auth.accessToken);
+    const getAllCategoriesQuery = useGetAllCategories(auth.accessToken);
     
     const toast = useToast();
 
@@ -53,7 +53,7 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
         initialValues: {
             title: isEditing ? task.title : '',
             status: isEditing ? task.status : 'todo',
-            typeId: isEditing && hasType ? task.typeId : ''
+            categoryId: isEditing && hasCategory ? task.categoryId : ''
         },
         validationSchema,
         onSubmit: (values) => {
@@ -73,17 +73,17 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
     }
 
     const handleTypeIdChange = (event) => {
-        formik.setFieldValue('typeId', event.target.value);
+        formik.setFieldValue('categoryId', event.target.value);
     }
 
-    const typesIsLoading = getAlltypesQuery.isLoading;
-    const types = getAlltypesQuery.data;
-    const isError = createTaskMutation.isError || updateTaskMutation.isError || getAlltypesQuery.isError;
+    const categoriesIsLoading = getAllCategoriesQuery.isLoading;
+    const categories = getAllCategoriesQuery.data;
+    const isError = createTaskMutation.isError || updateTaskMutation.isError || getAllCategoriesQuery.isError;
     const error = createTaskMutation.isError ? createTaskMutation.error
         :
             updateTaskMutation.isError ? updateTaskMutation.error
             :
-                getAlltypesQuery.error;
+                getAllCategoriesQuery.error;
 
     return (
         <>
@@ -119,10 +119,10 @@ const TaskForm =  ({ task, handleClose, initialFocusRef }) => {
                     </FormControl>
 
                     <FormControl>
-                        <FormLabel htmlFor='typeId'>Tipo da tarefa</FormLabel>
-                        <Select placeholder='Selecione o tipo da tarefa' onChange={handleTypeIdChange} value={formik.values.typeId}>
+                        <FormLabel htmlFor='categoryId'>Categoria da tarefa</FormLabel>
+                        <Select placeholder='Selecione a categoria da tarefa' onChange={handleTypeIdChange} value={formik.values.categoryId}>
                         {
-                            typesIsLoading ? null : [...types].map(type => <option key={type._id} value={type._id}>{type.name}</option>)
+                            categoriesIsLoading ? null : categories.map(category => <option key={category._id} value={category._id}>{category.name}</option>)
                         }
                         </Select>
                     </FormControl>
