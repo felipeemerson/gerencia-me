@@ -9,7 +9,7 @@
     "build": "cd client && npm run build",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "node index.js",
-    "deploy-build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "deploy-build": "npm install && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "keywords": [],
   "author": "",
