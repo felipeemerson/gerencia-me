@@ -12,5 +12,6 @@
             "dest": "/"
         }
     ],
-    "buildCommand": "npm run deploy-build"
+    "buildCommand": "npm run deploy-build && ls /vercel/output",
+    "outputDirectory": "."
   }
