@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const config = require('config');
 const path = require('path');
 
+console.log(`current path: ${__dirname}`);
+
 require('./startup/validation')();
 
 const users = require('./routes/users');
