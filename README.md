@@ -10,7 +10,7 @@
   <p align="center">
     A simple task manager application!
     </br>
-    Deployed at: https://gerencia-me.herokuapp.com/
+    Deployed at: https://gerencia-me.vercel.app/
   </p>
 </div>
 
@@ -88,7 +88,7 @@ See the [open issues](https://github.com/felipeemerson/gerencia-me/issues) for m
 This project has two parts:
     
   <ul>
-  <li>Backend (root folder)</li>
+  <li>Backend (server folder)</li>
   <li>Frontend (client folder)</li>
   </ul>
 
@@ -149,7 +149,7 @@ The following tools were used in the construction of the project:
 -   **[Joi ObjectId](https://github.com/mkg20001/joi-objectid)**
 -   **[Bcrypt](https://github.com/kelektiv/node.bcrypt.js)**
 -   **[Config](https://github.com/node-config/node-config)**
-> See the file  [package.json](https://github.com/felipeemerson/gerencia-me/blob/main/package.json)
+> See the file  [package.json](https://github.com/felipeemerson/gerencia-me/blob/main/server/package.json)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
