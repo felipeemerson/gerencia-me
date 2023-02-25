@@ -10,11 +10,13 @@ const categories = require('./routes/categories');
 const tasks = require('./routes/tasks');
 const auth = require('./routes/auth');
 
-if(!config.get('jwtPrivateKey')) {
+const jwtPrivateKey = config.get('jwtPrivateKey') || process.env.jwtPrivateKey;
+
+if(!jwtPrivateKey) {
     throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');
 }
 
-const db = config.get('db');
+const db = config.get('db') || process.env.db;
 
 mongoose.connect(db, {
     useNewUrlParser: true,
