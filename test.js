@@ -1,1 +1,0 @@
-console.log(`current path: ${__dirname}`);

@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const config = require('config');
 const path = require('path');
+process.env['NODE_CONFIG_DIR'] = path.join(path.resolve("./server"),"config/");
 
-console.log(`current path: ${__dirname}`);
+const config = require('config');
 
 require('./startup/validation')();
 
@@ -12,13 +12,11 @@ const categories = require('./routes/categories');
 const tasks = require('./routes/tasks');
 const auth = require('./routes/auth');
 
-const jwtPrivateKey = config.get('jwtPrivateKey') || process.env.jwtPrivateKey;
-
-if(!jwtPrivateKey) {
+if(!config.get('jwtPrivateKey')) {
     throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');
 }
 
-const db = config.get('db') || process.env.db;
+const db = config.get('db');
 
 mongoose.connect(db, {
     useNewUrlParser: true,

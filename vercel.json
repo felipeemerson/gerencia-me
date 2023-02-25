@@ -1,17 +1,18 @@
 {
     "version": 2,
     "builds": [
+        { "src": "server/index.js", "use": "@vercel/node" },
         {
-            "src": "./index.js",
-            "use": "@vercel/node"
+          "src": "client/package.json",
+          "use": "@vercel/static-build",
+          "config": { "distDir": "build" }
         }
-    ],
-    "routes": [
+      ],
+      "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/"
+          "src": "/(.*)",
+          "headers": { "cache-control": "s-maxage=0" },
+          "dest": "/server"
         }
-    ],
-    "buildCommand": "npm run deploy-build && ls /vercel/output",
-    "outputDirectory": "."
-  }
+      ]
+}
