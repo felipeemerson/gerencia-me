@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-process.env['NODE_CONFIG_DIR'] = path.join(path.resolve("./server"),"config/");
+
+// for vercel config location
+if (process.env.NODE_ENV === 'production') {
+    process.env['NODE_CONFIG_DIR'] = path.join(path.resolve("./server"),"config/");
+}
 
 const config = require('config');
 

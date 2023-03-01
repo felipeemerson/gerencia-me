@@ -5,13 +5,15 @@ import { useAuth } from '../../contexts/auth.context';
 
 import { AiOutlineMenu } from 'react-icons/ai';
 
+import gerenciameLogo from "../../assets/gerenciame-logo.png";
+
 import {
     Box,
+    Image,
     HStack,
     StackDivider,
     Flex,
     Spacer,
-    Heading,
     Button,
     IconButton,
     Link,
@@ -35,8 +37,8 @@ const Header = () => {
 
     return (
         <Flex p='1em' verticalAlign='center' bg="cyan.100" mb="20px">
-            <Box p='0.5em'>
-                <Heading as='h1' size='lg' color='blue.600'>Gerencia-me</Heading>
+            <Box paddingLeft="3">
+                <Image boxSize={isLargeThan1280 ? "174" : "126"} height={isLargeThan1280 ? "58" : "42"} src={gerenciameLogo} alt='Gerencia-me Logo' />
             </Box>
 
             {
