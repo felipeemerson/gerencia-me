@@ -103,20 +103,18 @@ In addition, it is good to have an editor to work with the code like [VSCode](ht
 # Clone this repository
 $ git clone https://github.com/felipeemerson/gerencia-me.git
 
-# Access the project folder cmd/terminal
-$ cd gerencia-me
+# Go to frontend folder
+$ cd gerencia-me/client
 
-# Install the backend dependencies
-$ npm i
-
-# Go to client folder
-$ cd client
 
 # Install the frontend dependencies
 $ npm i
 
-# Back to root folder
-$ cd ..
+# Go to backend folder
+$ cd ../server
+
+# Install the backend dependencies
+$ npm i
 
 # Install concurrently globally to run both frontend and backend
 $ npm install -g concurrently
@@ -124,7 +122,7 @@ $ npm install -g concurrently
 # set gerenciame_jwtPrivateKey environment variable
 $ export gerenciame_jwtPrivateKey=YOUR_VALUE
 
-# Run the application in development mode
+# Run the application in development mode (must be inside the server folder)
 $ npm run dev
 ```
 ### Built With
