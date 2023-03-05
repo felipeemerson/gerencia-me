@@ -106,7 +106,6 @@ $ git clone https://github.com/felipeemerson/gerencia-me.git
 # Go to frontend folder
 $ cd gerencia-me/client
 
-
 # Install the frontend dependencies
 $ npm i
 
